@@ -15,6 +15,14 @@ public class BlogsRepository {
         }
     }
 
+    public void deleteBlogByID(String blogID) {
+        try (var connection = DBUtils.getConnection(); Statement statement = connection.createStatement()) {
+            statement.executeUpdate(String.format("DELETE FROM blogs WHERE id = %s", blogID));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public ArrayList<BlogsEntity> findByUserID(Long userID) {
         try {
             return getFromDB("SELECT * FROM blogs WHERE author_id = " + userID);

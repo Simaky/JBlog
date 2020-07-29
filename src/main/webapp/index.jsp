@@ -3,6 +3,7 @@
 <%@ page import="model.BlogsEntity" %>
 <%@ page import="repository.UsersRepository" %>
 <%@ page import="util.Auth" %>
+<%@ page import="model.UsersEntity" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <html lang="en">
@@ -102,7 +103,7 @@
         <div class="col-md-8" id="main-block">
 
             <%
-                int limit = 1;
+                int limit = 2;
                 BlogsRepository blogsRepository = new BlogsRepository();
                 UsersRepository usersRepository = new UsersRepository();
 
@@ -113,19 +114,42 @@
 
                 ArrayList<BlogsEntity> allBlogs = blogsRepository.getLimited(limit);
 
+                long userId = 0;
+                if (Auth.isAuthorized(request)) {
+                    userId = Long.parseLong(Auth.getCookie(request));
+                }
+
 
                 for (BlogsEntity blog : allBlogs) {
-                    out.println(String.format("<div class=\"card mb-4\">\n" +
-                            "                    <h2 class=\"card-title\">%s</h2>\n" +
-                            "                <div class=\"card-body\">\n" +
-                            "                    <p class=\"card-text\">%s</p>\n" +
-                            "                </div>\n" +
-                            "                <div class=\"card-footer text-muted\">\n" +
-                            "                    Posted on %s by\n" +
-                            "                    <a href=\"#\">%s</a>\n" +
-                            "                </div>\n" +
-                            "            </div>", blog.getTitle(), blog.getBody(), blog.getCreatedAt(), usersRepository.findByID(blog.getAuthorId()).getLogin()));
-
+                    if (Auth.isAuthorized(request) && blog.getAuthorId() == userId) {
+                        out.println(String.format("<div class=\"card mb-4\">\n" +
+                                "                    <h2 class=\"card-title\">%s</h2>\n" +
+                                "                <div class=\"card-body\">\n" +
+                                "                    <p class=\"card-text\">%s</p>\n" +
+                                "                </div>\n" +
+                                "                <div class=\"card-footer text-muted\">\n" +
+                                "                    Posted on %s by\n" +
+                                "                    <a href=\"#\">%s</a>\n" +
+                                "<form name=\"delete-form\" method=\"post\" action=\"deleteblog\">\n" +
+                                "                <input type=\"hidden\" name=\"blog_id\" value=\"%d\">\n" +
+                                "                <button class=\"close\" aria-label=\"Close\" type=\"submit\">\n" +
+                                "                    <span aria-hidden=\"true\">&times;</span>\n" +
+                                "                </button>\n" +
+                                "            </form>" +
+                                "                </div>\n" +
+                                "            </div>", blog.getTitle(), blog.getBody(), blog.getCreatedAt(), usersRepository.findByID(blog.getAuthorId()).getLogin(), blog.getId()));
+                    } else {
+                        out.println(String.format("<div class=\"card mb-4\">\n" +
+                                "                    <h2 class=\"card-title\">%s</h2>\n" +
+                                "                <div class=\"card-body\">\n" +
+                                "                    <p class=\"card-text\">%s</p>\n" +
+                                "                </div>\n" +
+                                "                <div class=\"card-footer text-muted\">\n" +
+                                "                    Posted on %s by\n" +
+                                "                    <a href=\"#\">%s</a>\n" +
+                                "                </div>\n" +
+                                "            </div>", blog.getTitle(), blog.getBody(), blog.getCreatedAt(), usersRepository.findByID(blog.getAuthorId()).getLogin()));
+                    }
                 }
             %>
 

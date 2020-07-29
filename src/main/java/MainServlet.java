@@ -17,6 +17,7 @@ public class MainServlet extends HttpServlet {
         put("/logout", new LogoutController());
         put("/registration", new RegistrationController());
         put("/addblog", new AddBlogController());
+        put("/deleteblog", new DeleteBlogController());
         put("/", new MainController());
     }};
 
@@ -26,6 +27,7 @@ public class MainServlet extends HttpServlet {
         controller.executeGet(req, resp);
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var controller = getControllerByPath(req.getServletPath());
         controller.executePost(req, resp);
