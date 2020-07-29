@@ -1,7 +1,6 @@
 package repository;
 
 import model.BlogsEntity;
-import model.UsersEntity;
 import util.DBUtils;
 
 import java.sql.*;
