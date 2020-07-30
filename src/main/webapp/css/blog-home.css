@@ -17,6 +17,11 @@ body {
     }
 }
 
+#delete-form {
+    float: right;
+    margin-bottom: 0;
+}
+
 .footer {
     bottom: 0;
     width: 100%;

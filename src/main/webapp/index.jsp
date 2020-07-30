@@ -130,7 +130,7 @@
                                 "                <div class=\"card-footer text-muted\">\n" +
                                 "                    Posted on %s by\n" +
                                 "                    <a href=\"#\">%s</a>\n" +
-                                "<form name=\"delete-form\" method=\"post\" action=\"deleteblog\">\n" +
+                                "<form id=\"delete-form\" name=\"delete-form\" method=\"post\" action=\"deleteblog\">\n" +
                                 "                <input type=\"hidden\" name=\"blog_id\" value=\"%d\">\n" +
                                 "                <button class=\"close\" aria-label=\"Close\" type=\"submit\">\n" +
                                 "                    <span aria-hidden=\"true\">&times;</span>\n" +
