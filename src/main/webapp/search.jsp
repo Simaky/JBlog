@@ -102,16 +102,19 @@
         <div class="col-md-8" id="main-block">
 
             <%
-                int limit = 2;
                 BlogsRepository blogsRepository = new BlogsRepository();
                 UsersRepository usersRepository = new UsersRepository();
 
-                String plimit = request.getParameter("limit");
-                if (plimit != null && !plimit.isEmpty()) {
-                    limit = Integer.parseInt(plimit);
+                String sWord = request.getParameter("word");
+                if (sWord != null && !sWord.isEmpty()) {
+
                 }
 
-                ArrayList<BlogsEntity> allBlogs = blogsRepository.getLimited(limit);
+                ArrayList<BlogsEntity> allBlogs = blogsRepository.search(sWord);
+                if(allBlogs == null || allBlogs.size() == 0){
+                    out.println("<h3>Unfortunately, your search returned no results. Try another name.</h3>");
+                    return;
+                }
 
                 long userId = 0;
                 if (Auth.isAuthorized(request)) {
@@ -152,24 +155,16 @@
                 }
             %>
 
-            <ul class="pagination justify-content-center mb-4">
-                <li class="page-item">
-                    <a class="page-link"
-                       href="?limit=<% limit = limit*2;out.println(limit);%>">Load more...</a>
-                </li>
-            </ul>
-
         </div>
 
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
-
             <!-- Search Widget -->
             <div class="card my-4">
                 <h5 class="card-header">Search</h5>
                 <div class="card-body">
                     <form class="input-group" action="search">
-                        <input type="text" class="form-control" name="word" placeholder="Search for...">
+                        <input type="text" class="form-control" value="<% out.println(sWord);%>" name="word" placeholder="Search for...">
                         <span class="input-group-append">
                 <button class="btn btn-secondary" type="submit">Go!</button>
               </span>

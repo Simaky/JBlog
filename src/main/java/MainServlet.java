@@ -18,6 +18,7 @@ public class MainServlet extends HttpServlet {
         put("/registration", new RegistrationController());
         put("/addblog", new AddBlogController());
         put("/deleteblog", new DeleteBlogController());
+        put("/search", new SearchController());
         put("/", new MainController());
     }};
 

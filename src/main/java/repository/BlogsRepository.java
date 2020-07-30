@@ -23,6 +23,15 @@ public class BlogsRepository {
         }
     }
 
+    public ArrayList<BlogsEntity> search(String word) {
+        try {
+            return getFromDB(String.format("SELECT * FROM blogs WHERE title LIKE '%%%s%%' OR body LIKE '%%%s%%' ", word, word));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<BlogsEntity> findByUserID(Long userID) {
         try {
             return getFromDB("SELECT * FROM blogs WHERE author_id = " + userID);
@@ -54,6 +63,7 @@ public class BlogsRepository {
     }
 
     private ArrayList<BlogsEntity> getFromDB(String query) throws SQLException {
+        System.out.println(query);
         try (var connection = DBUtils.getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
             ArrayList<BlogsEntity> blogsEntities = new ArrayList<>();
