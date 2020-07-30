@@ -86,8 +86,6 @@
                                 "                </li>");
                     }
                 %>
-
-
             </ul>
         </div>
     </div>
@@ -106,8 +104,8 @@
                 UsersRepository usersRepository = new UsersRepository();
 
                 String sWord = request.getParameter("word");
-                if (sWord != null && !sWord.isEmpty()) {
-
+                if (sWord == null || sWord.isEmpty()) {
+                    response.sendRedirect("index.jsp");
                 }
 
                 ArrayList<BlogsEntity> allBlogs = blogsRepository.search(sWord);
@@ -120,7 +118,6 @@
                 if (Auth.isAuthorized(request)) {
                     userId = Long.parseLong(Auth.getCookie(request));
                 }
-
 
                 for (BlogsEntity blog : allBlogs) {
                     if (Auth.isAuthorized(request) && blog.getAuthorId() == userId) {
