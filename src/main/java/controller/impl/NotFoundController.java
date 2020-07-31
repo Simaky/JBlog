@@ -10,6 +10,6 @@ import java.io.IOException;
 public class NotFoundController implements Controller {
     @Override
     public void executeGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("error.jsp").forward(request, response);
+        request.getRequestDispatcher("error_not_found.jsp").forward(request, response);
     }
 }
