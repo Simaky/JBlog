@@ -102,7 +102,7 @@
         <div class="col-md-8" id="main-block">
 
             <%
-                int limit = 2;
+                Integer limit = 2;
                 BlogsRepository blogsRepository = new BlogsRepository();
                 UsersRepository usersRepository = new UsersRepository();
 
@@ -111,13 +111,14 @@
                     limit = Integer.parseInt(plimit);
                 }
 
+                Integer blogsCount = blogsRepository.findBlogsCount();
+
                 ArrayList<BlogsEntity> allBlogs = blogsRepository.getLimited(limit);
 
                 long userId = 0;
                 if (Auth.isAuthorized(request)) {
                     userId = Long.parseLong(Auth.getCookie(request));
                 }
-
 
                 for (BlogsEntity blog : allBlogs) {
                     if (Auth.isAuthorized(request) && blog.getAuthorId() == userId) {
@@ -152,12 +153,30 @@
                 }
             %>
 
-            <ul class="pagination justify-content-center mb-4">
-                <li class="page-item">
-                    <a class="page-link"
-                       href="?limit=<% limit = limit*2;out.println(limit);%>">Load more...</a>
-                </li>
-            </ul>
+            <%!
+                public String doSomething(Integer limit) {
+                    limit = limit * 2;
+                    return limit.toString();
+                }
+            %>
+
+            <%
+                if (blogsCount != null && limit >= blogsCount) {
+                    out.println("<ul class=\"pagination justify-content-center mb-4\">\n" +
+                            "                <li class=\"page-item disabled\">\n" +
+                            "                    <a class=\"page-link\"\n" +
+                            "                       href=\"\">Load more...</a>\n" +
+                            "                </li>\n" +
+                            "            </ul>");
+                } else {
+                    out.println(String.format("<ul class=\"pagination justify-content-center mb-4\">\n" +
+                            "                <li class=\"page-item\">\n" +
+                            "                    <a class=\"page-link\"\n" +
+                            "                       href=\"?limit=%s\">Load more...</a>\n" +
+                            "                </li>\n" +
+                            "            </ul>", doSomething(limit)));
+                }
+            %>
 
         </div>
 

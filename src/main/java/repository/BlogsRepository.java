@@ -32,6 +32,17 @@ public class BlogsRepository {
         return null;
     }
 
+    public Integer findBlogsCount() {
+        try (var connection = DBUtils.getConnection(); Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(id) FROM blogs");
+            resultSet.next();
+            return resultSet.getInt("COUNT(id)");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<BlogsEntity> findByUserID(Long userID) {
         try {
             return getFromDB("SELECT * FROM blogs WHERE author_id = " + userID);
@@ -63,7 +74,6 @@ public class BlogsRepository {
     }
 
     private ArrayList<BlogsEntity> getFromDB(String query) throws SQLException {
-        System.out.println(query);
         try (var connection = DBUtils.getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
             ArrayList<BlogsEntity> blogsEntities = new ArrayList<>();
