@@ -154,8 +154,8 @@
             %>
 
             <%!
-                public String doSomething(Integer limit) {
-                    limit = limit * 2;
+                public String increaseLimit(Integer limit) {
+                    limit = limit + 4;
                     return limit.toString();
                 }
             %>
@@ -174,7 +174,7 @@
                             "                    <a class=\"page-link\"\n" +
                             "                       href=\"?limit=%s\">Load more...</a>\n" +
                             "                </li>\n" +
-                            "            </ul>", doSomething(limit)));
+                            "            </ul>", increaseLimit(limit)));
                 }
             %>
 

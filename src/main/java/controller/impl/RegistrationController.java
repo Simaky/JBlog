@@ -31,8 +31,7 @@ public class RegistrationController implements Controller {
         usersRepository.createUser(login, email, password);
         user = usersRepository.findByEmail(email);
 
-        Cookie cookie = new Cookie("user_id", user.getId().toString());
-        response.addCookie(cookie);
+        request.getSession().setAttribute("user_id", user.getId().toString());
 
         response.sendRedirect("index.jsp");
     }

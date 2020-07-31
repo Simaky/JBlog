@@ -27,8 +27,7 @@ public class LoginController implements Controller {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
 
-        Cookie cookie = new Cookie("user_id", user.getId().toString());
-        response.addCookie(cookie);
+        request.getSession().setAttribute("user_id", user.getId().toString());
 
         response.sendRedirect("index.jsp");
     }

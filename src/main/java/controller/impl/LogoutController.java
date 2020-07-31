@@ -11,12 +11,7 @@ import java.io.IOException;
 public class LogoutController implements Controller {
     @Override
     public void executeGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Cookie cookie = new Cookie("user_id", null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-
-        response.addCookie(cookie);
-
+        request.getSession().removeAttribute("user_id");
         response.sendRedirect("index.jsp");
     }
 }
