@@ -16,7 +16,7 @@ public class DeleteBlogController implements Controller {
         BlogsRepository blogsRepository = new BlogsRepository();
 
         if (blogID == null || blogID.isEmpty()) {
-            //TODO process error
+            request.getRequestDispatcher("error_not_found.jsp").forward(request, response);
             return;
         }
 
