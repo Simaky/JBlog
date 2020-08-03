@@ -1,6 +1,0 @@
-node_modules
-.idea
-target
-src/main/webapp/.travis.yml
-src/main/webapp/gulpfile.js
-JBlog.iml
